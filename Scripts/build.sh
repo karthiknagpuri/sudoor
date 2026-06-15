@@ -14,6 +14,7 @@ mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 cp "$BIN/SudoorBar"    "$APP/Contents/MacOS/sudoor"
 cp "$BIN/IslandPrompt" "$APP/Contents/MacOS/island-prompt"
 cp "$REPO/assets/menubar.png" "$APP/Contents/Resources/menubar.png"
+cp "$REPO/assets/AppIcon.icns" "$APP/Contents/Resources/AppIcon.icns"
 
 cat > "$APP/Contents/Info.plist" <<'PLIST'
 <?xml version="1.0" encoding="UTF-8"?>
@@ -24,6 +25,7 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
     <key>CFBundleName</key>              <string>sudoor</string>
     <key>CFBundleDisplayName</key>       <string>sudoor</string>
     <key>CFBundleExecutable</key>        <string>sudoor</string>
+    <key>CFBundleIconFile</key>          <string>AppIcon</string>
     <key>CFBundlePackageType</key>       <string>APPL</string>
     <key>CFBundleShortVersionString</key><string>1.0</string>
     <key>CFBundleVersion</key>           <string>1</string>
