@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-test:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Swift version
+        run: swift --version
+
+      - name: Build (release)
+        run: swift build -c release
+
+      - name: SwiftLint
+        run: |
+          brew install swiftlint
+          swiftlint --quiet
+
+      - name: Hook contract test
+        run: make test
+
+      - name: Assemble app bundle
+        run: ./Scripts/build.sh
