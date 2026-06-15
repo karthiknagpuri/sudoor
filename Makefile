@@ -12,6 +12,9 @@ app: ## Assemble ~/Applications/sudoor.app
 install: ## Build + install app and hook
 	./Scripts/install.sh
 
+release: ## Universal + Developer ID + notarized build → dist/sudoor.zip
+	./Scripts/release.sh
+
 lint: ## Run SwiftLint (no-op if not installed)
 	@command -v swiftlint >/dev/null 2>&1 && swiftlint --quiet || echo "swiftlint not installed — skipping"
 

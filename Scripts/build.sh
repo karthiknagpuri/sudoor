@@ -3,11 +3,12 @@
 set -euo pipefail
 
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
-APP="$HOME/Applications/sudoor.app"
+APP="${SUDOOR_APP_OUT:-$HOME/Applications/sudoor.app}"
+ARCHS=""; [ "${SUDOOR_UNIVERSAL:-0}" = "1" ] && ARCHS="--arch arm64 --arch x86_64"
 
-echo "==> swift build -c release"
-( cd "$REPO" && swift build -c release )
-BIN="$(cd "$REPO" && swift build -c release --show-bin-path)"
+echo "==> swift build -c release ${ARCHS}"
+( cd "$REPO" && swift build -c release $ARCHS )
+BIN="$(cd "$REPO" && swift build -c release $ARCHS --show-bin-path)"
 
 echo "==> assembling $APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
@@ -37,8 +38,22 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
 </plist>
 PLIST
 
-echo "==> ad-hoc signing (required for SMAppService login item)"
-codesign --force --sign - --identifier com.sudoor.app "$APP" >/dev/null 2>&1 \
-  || echo "   (codesign failed — login item may not register)"
+echo "==> code signing"
+# Prefer Developer ID (notarizable), then Apple Development (stable local
+# identity — keeps TCC grants + login item across rebuilds), else ad-hoc.
+SIGN_ID="${SUDOOR_SIGN_ID:-}"
+if [ -z "$SIGN_ID" ]; then
+  SIGN_ID="$(security find-identity -v -p codesigning | awk -F\" '/Developer ID Application/{print $2; exit}')"
+  [ -z "$SIGN_ID" ] && SIGN_ID="$(security find-identity -v -p codesigning | awk -F\" '/Apple Development/{print $2; exit}')"
+fi
+HARDEN=""; [ "${SUDOOR_HARDENED:-0}" = "1" ] && HARDEN="--options runtime --timestamp"
+if [ -n "$SIGN_ID" ]; then
+  codesign --force $HARDEN --sign "$SIGN_ID" "$APP/Contents/MacOS/island-prompt" >/dev/null 2>&1 || true
+  codesign --force $HARDEN --sign "$SIGN_ID" "$APP" >/dev/null 2>&1 \
+    && echo "   signed: $SIGN_ID" || echo "   sign failed, falling back to ad-hoc"
+else
+  codesign --force --sign - --identifier com.sudoor.app "$APP" >/dev/null 2>&1 || true
+  echo "   ad-hoc signed (no Developer ID / Apple Development cert found)"
+fi
 
 echo "==> done: $APP"
