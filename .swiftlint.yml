@@ -1,0 +1,34 @@
+# SwiftLint config for sudoor — tuned for compact, single-file executables.
+included:
+  - Sources
+
+disabled_rules:
+  - trailing_whitespace      # cosmetic, editor-dependent
+  - todo                     # TODOs are fine in a small tool
+
+line_length:
+  warning: 160
+  error: 220
+
+identifier_name:
+  min_length: 1              # we use terse locals: a, g, w, r, b, d, t
+  max_length: 60
+
+type_name:
+  min_length: 2
+
+function_body_length:
+  warning: 90
+  error: 160
+
+type_body_length:
+  warning: 420
+  error: 600
+
+file_length:
+  warning: 500
+  error: 800
+
+cyclomatic_complexity:
+  warning: 20
+  error: 30
