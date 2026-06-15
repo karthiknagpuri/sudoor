@@ -7,6 +7,10 @@
   <p><a href="https://sudoor.bar">sudoor.bar</a> · macOS 14+ · Apple silicon · MIT</p>
 </div>
 
+<p align="center">
+  <img src="assets/demo.png" width="660" alt="sudoor Dynamic Island permission prompt at the notch">
+</p>
+
 ---
 
 ## What it is
