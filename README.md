@@ -40,7 +40,7 @@ agent asks → hook fires → island genies out of the notch → you nod → dec
 ## Install
 
 ```sh
-git clone https://github.com/karthiknagapuri/sudoor.git
+git clone https://github.com/karthiknagpuri/sudoor.git
 cd sudoor
 ./Scripts/install.sh
 ```

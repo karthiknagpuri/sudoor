@@ -5,7 +5,7 @@ Thanks for helping out. sudoor is small — three files do the real work — so 
 ## Setup
 
 ```sh
-git clone https://github.com/karthiknagapuri/sudoor.git
+git clone https://github.com/karthiknagpuri/sudoor.git
 cd sudoor
 make build        # compile both targets
 make app          # assemble ~/Applications/sudoor.app
