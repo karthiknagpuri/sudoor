@@ -15,9 +15,11 @@
 
 ## What it is
 
-When Claude Code wants to run a command, edit a file, or hit the network, it asks for permission. `sudoor` intercepts that ask with a **PermissionRequest hook**, drops it into a **Dynamic Island at your MacBook notch**, raises the exact terminal window that's asking, and lets you **Approve / Disapprove** in one click. Decide, and the window tucks itself away. You never break flow or babysit a terminal again.
+**The new-age IDE for your default Terminal.** You don't need another editor — `sudoor` turns the Terminal you already live in into an agent-native workspace, so the place your agents run is finally the place you run them from.
 
-Works with **Claude Code** running in Terminal, iTerm, Cursor, and VS Code.
+It starts with permission control: when Claude Code wants to run a command, edit a file, or hit the network, it asks for permission. `sudoor` intercepts that ask with a **PermissionRequest hook**, drops it into a **Dynamic Island at your MacBook notch**, raises the exact terminal window that's asking, and lets you **Approve / Disapprove** in one click. Decide, and the window tucks itself away. You never break flow or babysit a terminal again.
+
+From there it layers on the rest of an agent workflow — **workspaces** to jump between projects, one-click **Run Project** with clickable dev URLs, live **per-project token usage** in the menu bar and as terminal spinner tips, **Review Changes** before they land, and an **audit log** — all on top of Terminal, iTerm, Cursor, and VS Code. Free and open source under MIT; everything stays on your Mac.
 
 ## How it works
 
