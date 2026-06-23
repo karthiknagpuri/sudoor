@@ -1,0 +1,44 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:sudoor}",
+            "name": "Debug SudoorBar",
+            "target": "SudoorBar",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug SudoorBar"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:sudoor}",
+            "name": "Release SudoorBar",
+            "target": "SudoorBar",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release SudoorBar"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:sudoor}",
+            "name": "Debug IslandPrompt",
+            "target": "IslandPrompt",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug IslandPrompt"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:sudoor}",
+            "name": "Release IslandPrompt",
+            "target": "IslandPrompt",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release IslandPrompt"
+        }
+    ]
+}

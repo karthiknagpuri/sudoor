@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "id": "deny-recursive-root-delete",
+      "effect": "deny",
+      "match": {
+        "tool": "Bash",
+        "commandRegex": "(^|[;&|]\\s*)rm\\s+(-[A-Za-z]*r[A-Za-z]*f|-rf|-fr)\\s+(/|~|\\$HOME)(\\s|$)"
+      }
+    },
+    {
+      "id": "allow-readonly-git",
+      "effect": "allow",
+      "match": {
+        "tool": "Bash",
+        "commandRegex": "^git\\s+(status|diff|log|show|branch)(\\s|$)"
+      }
+    },
+    {
+      "id": "delegate-high-risk",
+      "effect": "delegate",
+      "delegate": "security",
+      "match": {
+        "minRisk": "high"
+      }
+    }
+  ],
+  "projects": {
+    "sudoor": {
+      "rules": [
+        {
+          "id": "ask-before-release",
+          "effect": "ask",
+          "match": {
+            "tool": "Bash",
+            "commandContains": "Scripts/release.sh"
+          }
+        }
+      ]
+    }
+  }
+}

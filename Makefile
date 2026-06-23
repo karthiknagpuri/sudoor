@@ -18,8 +18,11 @@ release: ## Universal + Developer ID + notarized build → dist/sudoor.zip
 lint: ## Run SwiftLint (no-op if not installed)
 	@command -v swiftlint >/dev/null 2>&1 && swiftlint --quiet || echo "swiftlint not installed — skipping"
 
-test: ## Run the hook contract test
+test: ## Run hook contract tests + Swift unit tests
 	@bash Tests/hook-contract.sh
+	@bash Tests/codex-hook-contract.sh
+	@bash Tests/audit-export.sh
+	@swift test
 
 check: lint test ## Lint + test
 

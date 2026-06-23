@@ -11,7 +11,9 @@ bash "$REPO/Scripts/build.sh"
 mkdir -p "$HOME/bin"
 cp "$REPO/hooks/claude-permission-hook.sh" "$HOME/bin/claude-permission-hook.sh"
 chmod +x "$HOME/bin/claude-permission-hook.sh"
-echo "==> hook installed: ~/bin/claude-permission-hook.sh"
+cp "$REPO/hooks/sudoor-codex-hook.sh" "$HOME/bin/sudoor-codex-hook.sh"
+chmod +x "$HOME/bin/sudoor-codex-hook.sh"
+echo "==> hooks installed: ~/bin/claude-permission-hook.sh, ~/bin/sudoor-codex-hook.sh"
 
 # 3. Launch (registers the SMAppService login item on first run).
 open "$HOME/Applications/sudoor.app"
@@ -23,6 +25,8 @@ cat <<'NOTE'
   { "hooks": { "PermissionRequest": [
       { "hooks": [ { "type": "command",
           "command": "~/bin/claude-permission-hook.sh" } ] } ] } }
+
+For Codex CLI, point config.toml PermissionRequest at ~/bin/sudoor-codex-hook.sh.
 
 Then restart Claude Code (hooks load at session start).
 NOTE

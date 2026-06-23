@@ -9,6 +9,7 @@
 
 import SwiftUI
 import AppKit
+import SudoorCore
 
 // MARK: - Args
 let rawArgs = Array(CommandLine.arguments.dropFirst())
@@ -20,16 +21,21 @@ do {
     var msgParts: [String] = []
     while i < rawArgs.count {
         let a = rawArgs[i]
-        if a == "--timeout", i + 1 < rawArgs.count { timeout = Double(rawArgs[i + 1]) ?? 30; i += 2; continue }
+        if a == "--timeout", i + 1 < rawArgs.count { timeout = clampTimeout(Double(rawArgs[i + 1]) ?? 30); i += 2; continue }
         if a == "--source",  i + 1 < rawArgs.count { source = rawArgs[i + 1]; i += 2; continue }
         msgParts.append(a); i += 1
     }
     if !msgParts.isEmpty { message = msgParts.joined(separator: " ") }
 }
+timeout = clampTimeout(timeout)
 
 // MARK: - Decision plumbing
+let decisionGate = DecisionGate()
+
 func decide(_ value: String?) -> Never {
-    if let v = value { FileHandle.standardOutput.write(Data((v + "\n").utf8)) }
+    decisionGate.runOnce {
+        if let v = value { FileHandle.standardOutput.write(Data((v + "\n").utf8)) }
+    }
     NSApplication.shared.terminate(nil)
     exit(0)
 }
@@ -230,6 +236,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // Make the helper active so the buttons are clickable on the first click.
         NSApp.activate(ignoringOtherApps: true)
         // (Timeout is owned by the view so it can play the genie-out animation.)
+
+        // Backstop: if our parent (the permission hook) goes away — e.g. Claude
+        // resolved the request in the terminal and tore the hook down — there's
+        // nothing left to approve. Self-dismiss instead of hanging at the notch
+        // until the timeout. (A follow-up same-session request also kills us via
+        // the hook; this covers the orphaned-with-no-follow-up case.)
+        let bornPPID = getppid()
+        Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true) { t in
+            if getppid() != bornPPID {   // reparented → parent hook is gone
+                t.invalidate()
+                decide(nil)
+            }
+        }
     }
 }
 
