@@ -4,3 +4,4 @@
 *.swiftpm
 dist/
 .gstack/
+.vercel/
